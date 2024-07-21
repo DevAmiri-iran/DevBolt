@@ -1,0 +1,45 @@
+{
+  "name": "devamiri/devbolt",
+  "description": "DevBolt is a PHP framework designed to streamline web application development. It provides a robust structure for your application and a set of tools to make common web development tasks easier.",
+  "type": "project",
+  "authors": [
+    {
+      "name": "MR. Mohammad.Mahdi.Amiri",
+      "email": "mos.amiri332@gmail.com"
+    }
+  ],
+  "license": "MIT",
+  "config": {
+    "vendor-dir" : "app/src/vendor/"
+  },
+  "autoload": {
+    "files": [
+      "app/src/framework/include/autoload.php",
+      "app/src/extension/include/autoload.php"
+    ],
+    "psr-4": {
+      "App\\": "app/src/framework/",
+      "App\\Models\\": "app/database/Models/",
+      "App\\Middleware\\": "app/Middleware/",
+      "Ext\\": "app/src/extension"
+    }
+  },
+  "require": {
+    "ext-openssl": "*",
+    "ext-pdo": "*",
+    "filp/whoops": "^2.15",
+    "illuminate/database": "11.0",
+    "vlucas/phpdotenv": "^5.6",
+    "monolog/monolog": "^3.6",
+    "symfony/translation": "^7.0",
+    "symfony/http-foundation": "^7.0",
+    "eftec/bladeone": "^4.13",
+    "fakerphp/faker": "^1.23",
+    "swiftmailer/swiftmailer": "^6.3"
+  },
+  "scripts": {
+    "post-root-package-install": [
+      "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+    ]
+  }
+}
