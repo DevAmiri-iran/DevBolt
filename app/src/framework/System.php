@@ -10,6 +10,7 @@ use App\System\Session;
 use App\System\Translator;
 use App\System\View;
 use App\System\Router;
+use Exception;
 
 class System
 {
@@ -17,6 +18,7 @@ class System
 
     /**
      * Initialize the system.
+     * @throws Exception
      */
     public static function up(): void
     {
@@ -24,6 +26,7 @@ class System
         if (self::$env_exit)
         {
             self::register_debugger();
+            self::required_env();
             self::Translator_loader();
             self::start_session();
             self::config_view();
