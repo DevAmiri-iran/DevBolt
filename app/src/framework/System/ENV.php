@@ -28,12 +28,13 @@ trait ENV
         return new self();
     }
 
+
     /**
      * @throws Exception
      */
     public static function required_env()
     {
-        foreach (['APP_NAME', 'APfP_URL', 'APP_KEY', 'APP_DEBUG'] as $env)
+        foreach (['APP_NAME', 'APP_URL', 'APP_KEY', 'APP_DEBUG'] as $env)
         {
             if (env($env) === null)
             {
