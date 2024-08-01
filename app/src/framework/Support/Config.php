@@ -6,19 +6,6 @@ class Config {
     private static array $config = [];
 
     /**
-     * Loads configuration files from the specified directory.
-     *
-     * @param string $configDir The directory containing the configuration files.
-     */
-    public static function load(string $configDir): void
-    {
-        foreach (glob($configDir . '/*.php') as $file) {
-            $key = basename($file, '.php');
-            self::$config[$key] = require $file;
-        }
-    }
-
-    /**
      * Retrieves a configuration value.
      *
      * @param string $key The key of the configuration value.
@@ -27,17 +14,41 @@ class Config {
      */
     public static function get(string $key, mixed $default = null): mixed
     {
-        $keys = explode('.', $key);
-        $value = self::$config;
-
-        foreach ($keys as $key) {
-            if (isset($value[$key])) {
-                $value = $value[$key];
-            } else {
-                return $default;
+        if (!isset(self::$config[$key]))
+        {
+            if (file_exists(app_path("config/$key.php")))
+            {
+                self::$config[basename($key)] = include app_path("config/$key.php");
             }
         }
 
-        return $value;
+
+        if (isset(self::$config[$key]))
+        {
+            return self::$config[$key];
+        }
+        elseif (str_contains($key, '.'))
+        {
+            $key = explode('.', $key);
+            if (isset($key[1]))
+            {
+                $before = $key[0];
+                $after = $key[1];
+
+
+                if (isset(self::$config[$before]))
+                {
+                    return self::$config[$before][$after];
+                }
+
+            }
+
+            return $default;
+        }
+        else
+        {
+            return $default;
+        }
+
     }
 }
