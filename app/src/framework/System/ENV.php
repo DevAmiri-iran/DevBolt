@@ -4,6 +4,7 @@ namespace App\System;
 
 use App\System;
 use Dotenv\Dotenv;
+use Exception;
 
 trait ENV
 {
@@ -20,9 +21,25 @@ trait ENV
         {
             $dotenv = Dotenv::createImmutable(ROOT);
             $dotenv->load();
+
             self::$env_exit = true;
         }
 
         return new self();
     }
+
+    /**
+     * @throws Exception
+     */
+    public static function required_env()
+    {
+        foreach (['APP_NAME', 'APfP_URL', 'APP_KEY', 'APP_DEBUG'] as $env)
+        {
+            if (env($env) === null)
+            {
+                throw new Exception(' Fatal error: Uncaught '. base_path('.env') .': One or more environment variables failed assertions: '. $env .' is missing. ');
+            }
+        }
+    }
+
 }
